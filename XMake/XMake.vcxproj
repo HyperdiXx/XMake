@@ -72,6 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Output\$(Configuration)$(Platform)\bin\</OutDir>
     <IntDir>$(SolutionDir)Output\$(Configuration)$(Platform)\int\</IntDir>
+    <TargetName>make</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Output\$(Configuration)$(Platform)\bin\</OutDir>
@@ -124,6 +125,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\parser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\parser.h" />
+    <ClInclude Include="src\platform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
