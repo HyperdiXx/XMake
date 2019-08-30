@@ -76,6 +76,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Output\$(Configuration)$(Platform)\bin\</OutDir>
     <IntDir>$(SolutionDir)Output\$(Configuration)$(Platform)\int\</IntDir>
+    <TargetName>make</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
