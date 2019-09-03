@@ -2,7 +2,6 @@
 
 #ifdef _WIN64
 
-
 std::string readFile(const char* filename)
 {
     FILE* fileToRead = fopen(filename, "r");
@@ -24,5 +23,22 @@ std::string readFile(const char* filename)
 
     return std::string("Error. Failed to open file!");
 }
+
+std::string parseToken(std::string in)
+{
+    char *token = strtok(&in[0], ":");
+
+    while (in != "end.")
+    {
+        token++;
+
+        token = strtok(&in[0], ":");
+    }
+
+    std::string res(token);
+
+    return res;
+}
+
 #endif 
 
