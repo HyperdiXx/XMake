@@ -2,6 +2,14 @@
 
 #ifdef _WIN64
 
+bool compare(const char* src, const char *val)
+{
+    if (strcmp(src, val) == 0)
+        return true;
+    else
+        return false;
+}
+
 std::string readFile(const char* filename)
 {
     FILE* fileToRead = fopen(filename, "r");
@@ -24,15 +32,44 @@ std::string readFile(const char* filename)
     return std::string("Error. Failed to open file!");
 }
 
-std::string parseToken(std::string in)
+std::string parseToken(char* in)
 {
     char *token = strtok(&in[0], ":");
-
-    while (in != "end.")
+    
+    if (compare(token, "sln"))
     {
-        token++;
+        printf("test!\n");
+    }
 
-        token = strtok(&in[0], ":");
+    while (!compare(token, "end."))
+    {
+        
+        if (compare(token, "project"))
+        {
+            std::cout << "its project\n";
+        }
+        token++;
+    }
+
+    while (token != "end.")
+    {
+        int res = strcmp(token, "sln");
+        if (res == 0)
+        {
+            int a = 5;
+            token = strtok(&in[0], ":");
+        }
+        else if(token == "project")
+        {
+            std::cout << "its project\n";
+        }
+        else if (token == "name")
+        {
+            std::cout << "its name\n";
+        }
+
+        std::cout << "Current token is: " << token << "\n";
+
     }
 
     std::string res(token);
