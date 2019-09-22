@@ -10,9 +10,6 @@ void stringTest()
     String b("world");
 
     printf("%d", b.find('r'));
-
-    a.freedata();
-
 }
 
 int main(int argc, char **argv)

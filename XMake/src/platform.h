@@ -13,7 +13,7 @@
 #ifdef PLATFORM_WINDOWS
 
     #define WIN32_LEAN_AND_MEAN
-    #define _CRT_SECURE_NO_WARNINGS
+    //#define _CRT_SECURE_NO_WARNINGS
     #define OS "WINDOWS"
     #define CONFIG "X64"
     #define MAXLENGHT 1000
