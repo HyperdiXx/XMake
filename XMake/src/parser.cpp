@@ -1,5 +1,6 @@
 #include "parser.h"
 
+
 #ifdef _WIN64
 
 bool compare(const char* src, const char *val)
@@ -10,7 +11,7 @@ bool compare(const char* src, const char *val)
         return false;
 }
 
-std::string readFile(const char* filename)
+String readFile(const char* filename)
 {
     FILE* fileToRead = fopen(filename, "r");
 
@@ -19,60 +20,51 @@ std::string readFile(const char* filename)
         fseek(fileToRead, 0, SEEK_END);
         unsigned long length = ftell(fileToRead);
         fseek(fileToRead, 0, SEEK_SET);
-        char *le = new char[length + 1];
-        memset(le, 0, length + 1);
-        fread(le, sizeof(char), length + 1, fileToRead);
+        char *ar = new char[length + 1];
+        memset(ar, 0, length + 1);
+        fread(ar, sizeof(char), length + 1, fileToRead);
         fclose(fileToRead);
 
-        std::string res(le);
-        delete[] le;
-        return res;
+        std::string res(ar);
+        delete[] ar;
+        return String(res.c_str());
     }
 
-    return std::string("Error. Failed to open file!");
+    return nullptr;
 }
 
-std::string parseToken(char* in)
+static
+void eat_whitespaces(String *str)
 {
-    char *token = strtok(&in[0], ":");
+    for (size_t i = 0; i < str->length; i++)
+    {
+        if (*str->data != ' ' && *str->data != '\n' && *str->data != '\r' && *str->data != '\t')
+        {
+            str->data++;
+            str->length--;
+        }
+    }
+}
+
+String parseToken(String* str)
+{
+    eat_whitespaces(str);
     
-    if (compare(token, "sln"))
+    String res = *str;
+    
+    for (size_t i = 0; i < str->length; i++)
     {
-        printf("test!\n");
+        if (*str->data != ' ' && *str->data != '\n' && *str->data != '\r' && *str->data != '\t')
+        {
+            eat_whitespaces(str);
+            return res;
+        }
+        str->data++;
+        str->length--;
+        res.length++;
     }
 
-    while (!compare(token, "end."))
-    {
-        
-        if (compare(token, "project"))
-        {
-            std::cout << "its project\n";
-        }
-        token++;
-    }
-
-    while (token != "end.")
-    {
-        int res = strcmp(token, "sln");
-        if (res == 0)
-        {
-            int a = 5;
-            token = strtok(&in[0], ":");
-        }
-        else if(token == "project")
-        {
-            std::cout << "its project\n";
-        }
-        else if (token == "name")
-        {
-            std::cout << "its name\n";
-        }
-
-        std::cout << "Current token is: " << token << "\n";
-
-    }
-
-    std::string res(token);
+    eat_whitespaces(str);
 
     return res;
 }

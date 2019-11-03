@@ -1,16 +1,37 @@
 
 
 #include "parser.h"
-
+#include "string.h"
 
 void stringTest()
 {
     String a("hello");
 
+    size_t length = String::stringLength(a.toStr());
+
     String b("world");
 
-    printf("%d", b.find('r'));
+    String c(b);
+
+    size_t size = b.getLength() + 1;
+
+    char* string = (char*)malloc(size);
+    memset(string, 0, size);
+    String::stringCopy(b.toStr(), string);
+
+    //b.append("Hello!!!");
+
+    printf("%s\n", string);
+
+    printf("%d\n", b.find('r'));
+
+    printf("%s\n", b.toStr());
+
+    free(string);
+
 }
+
+
 
 int main(int argc, char **argv)
 {   
@@ -29,26 +50,10 @@ int main(int argc, char **argv)
 
     stringTest();
 
-    std::string fileTest = readFile("config.make");
-
-    std::cout << fileTest.c_str(); 
-
-    std::string tokenfirst = parseToken(&fileTest[0]);
+    String fileTest = readFile("config.make");
+    String tokenfirst = parseToken(&fileTest);
     
-    std::cout << tokenfirst.c_str() << "\n";
-
-    
-
-   
-
-
-
 #endif
-
-    
-    //CreateProcess();
-
-
 
     return 0;
 }

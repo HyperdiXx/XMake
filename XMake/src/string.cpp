@@ -20,10 +20,30 @@ String::String(char symbol)
 
 String::String(const char * str)
 {
-    size_t len = strlen(str);
-    allocateString(str, len);
+    if (!data)
+    {
+        data = (char*)_aligned_malloc(1, sizeof(void*));
+        __assume(data);
+    }
+    length = stringLength(str);
+        
+    allocateString(str);
 }
 
+String::String(const String & str)
+{
+    if (!data)
+    {
+        data = (char*)_aligned_malloc(1, sizeof(void*));
+        __assume(data);
+    }
+
+    length = stringLength(str.toStr());
+
+    allocateString(str.toStr());
+}
+
+/* Unused */
 void String::allocateStr(size_t n)
 {
     capacity = n;
@@ -46,20 +66,26 @@ void String::allocateStr(size_t n)
     }
 }
 
-void String::allocateString(const char * d, size_t n)
+void String::allocateString(const char * d)
 {
-    capacity = n;
+    capacity = length;
     if (capacity < 8)
         capacity = 8;
 
-    char *alloc = (char*)malloc(sizeof(capacity + 1));
-    memset(alloc, 0, capacity + 1);
-    strcpy(alloc, d);
+    char* str = (char*)_aligned_malloc(sizeof(capacity + 1), sizeof(void*));
+    memset(str, 0, capacity + 1);
+    memcpy(str, data, length);
+    stringCopy(d, str);
+    _aligned_free(data);
+    data = str;
+}
 
-    data = (char*)malloc(sizeof(1));
-    free(data);
-    data = alloc;
-    length = n;
+
+void String::strAlloc()
+{
+    data = (char*)malloc(sizeof(capacity + 1));
+    //memset(data, 0, capacity + 1);
+    length = 0;
 }
 
 void String::resize(size_t n)
@@ -87,16 +113,57 @@ void String::clear() noexcept
     }
 }
 
-void String::append(char symbol)
+inline size_t String::stringLength(const char * string)
 {
+    const char* str = string;
+
+    while (*str != '\0')
+    {
+        str++;
+    }
+
+    return  (size_t)(str - string);
+}
+
+void String::stringCopy(const char * str1, char * str2)
+{
+    while(*str1 != 0)
+    {
+        const char character = *str1;
+        *str2 = character;
+        ++str2;
+        ++str1;
+    }
+}
+
+String& String::append(char symbol)
+{
+    if (length > 0)
+    {
+        size_t newLen = length + 1;
+        if (newLen > capacity)
+            capacity += 1;
+
+        //memcpy(data + length, symbol, newLen);
+    }
+
+    return *this;
 }
 
 String& String::append(const char * str)
 {
-    size_t len = strlen(str);
-    //reserveMemory();
-    memcpy(data + length, str, len);
-    length += len;
+    if (length > 0)
+    {
+        size_t newLen = stringLength(str) + length;
+
+        if (newLen > capacity)
+            capacity += stringLength(str);
+
+        memcpy(data + length, str, newLen);
+
+        length = newLen;
+    }    
+    
     return *this;
 }
 
@@ -133,11 +200,21 @@ char String::find(size_t index)
     return 'E';
 }
 
-void String::freedata()
+size_t String::getLength() const
 {
+    return length;
+}
+
+size_t String::getCapacity() const
+{
+    return capacity;
+}
+
+void String::freeMem()
+{ 
     if (data)
     {
-        free(data);
+        _aligned_free(data);
         data = nullptr;
     }
 

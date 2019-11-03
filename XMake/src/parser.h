@@ -5,11 +5,15 @@
 
 #ifdef _WIN64
 
-std::string readFile(const char* filename);
+String 
+readFile(const char* filename);
 
-std::string parseToken(char* in);
+String 
+parseToken(String *str);
 
-bool compare(const char* src, const char *val);
+bool 
+compare(const char* src, const char *val);
+
 
 #endif  
 
