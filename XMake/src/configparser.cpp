@@ -1,8 +1,6 @@
 #include "parser.h"
 
 
-#ifdef _WIN64
-
 bool compare(const char* src, const char *val)
 {
     if (strcmp(src, val) == 0)
@@ -36,13 +34,12 @@ String readFile(const char* filename)
 static
 void eat_whitespaces(String *str)
 {
-    for (size_t i = 0; i < str->length; i++)
+    for (size_t i = 0; i < str->length;)
     {
-        if (*str->data != ' ' && *str->data != '\n' && *str->data != '\r' && *str->data != '\t')
-        {
-            str->data++;
-            str->length--;
-        }
+        if (*str->data != ' ' && *str->data != '\n' && *str->data != '\r' && *str->data != '\t') \
+            return;
+        str->data++;
+        str->length--;
     }
 }
 
@@ -52,9 +49,9 @@ String parseToken(String* str)
     
     String res = *str;
     
-    for (size_t i = 0; i < str->length; i++)
+    for (size_t i = 0; i < str->length;)
     {
-        if (*str->data != ' ' && *str->data != '\n' && *str->data != '\r' && *str->data != '\t')
+        if (*str->data == ' ' || *str->data == '\n' || *str->data == '\r' || *str->data == '\t')
         {
             eat_whitespaces(str);
             return res;
@@ -68,6 +65,3 @@ String parseToken(String* str)
 
     return res;
 }
-
-#endif 
-

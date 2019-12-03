@@ -70,13 +70,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Output\$(Configuration)$(Platform)\bin\</OutDir>
-    <IntDir>$(SolutionDir)Output\$(Configuration)$(Platform)\int\</IntDir>
+    <OutDir>$(SolutionDir)out\$(Configuration)$(Platform)\bin\</OutDir>
+    <IntDir>$(SolutionDir)out\$(Configuration)$(Platform)\int\</IntDir>
     <TargetName>make</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Output\$(Configuration)$(Platform)\bin\</OutDir>
-    <IntDir>$(SolutionDir)Output\$(Configuration)$(Platform)\int\</IntDir>
+    <OutDir>$(SolutionDir)out\$(Configuration)$(Platform)\bin\</OutDir>
+    <IntDir>$(SolutionDir)out\$(Configuration)$(Platform)\int\</IntDir>
     <TargetName>make</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -126,12 +126,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\parser.cpp" />
+    <ClCompile Include="src\configparser.cpp" />
     <ClCompile Include="src\string.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\iterator.h" />
-    <ClInclude Include="src\parser.h" />
+    <ClInclude Include="src\configparser.h" />
     <ClInclude Include="src\platform.h" />
     <ClInclude Include="src\string.h" />
   </ItemGroup>

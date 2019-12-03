@@ -12,7 +12,15 @@ class String
 public:
     using iterator = Iterator<char>;
 public:
-    explicit String() { allocateStr(8); };
+    explicit String() 
+    {
+        if (!data)
+        {
+            data = (char*)_aligned_malloc(1, alignment);
+            __assume(data);
+        }
+    };
+
     String(char symbol);
     String(const char *str);
     String(const String& str);
@@ -56,13 +64,14 @@ public:
 
     static size_t stringLength(const char* string);
     static void stringCopy(const char* str1, char* str2);
+    static bool stringCompare(String *str1, String *str2);
 
     const char* toStr() const noexcept { return data; }
 
     size_t length = 0;
     char* data = nullptr;
 private:
-    
+    int alignment = 16;
     size_t capacity = 0;
     size_t curpos = 0;
 };

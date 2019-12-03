@@ -22,7 +22,7 @@ String::String(const char * str)
 {
     if (!data)
     {
-        data = (char*)_aligned_malloc(1, sizeof(void*));
+        data = (char*)_aligned_malloc(1, alignment);
         __assume(data);
     }
     length = stringLength(str);
@@ -34,7 +34,7 @@ String::String(const String & str)
 {
     if (!data)
     {
-        data = (char*)_aligned_malloc(1, sizeof(void*));
+        data = (char*)_aligned_malloc(1, alignment);
         __assume(data);
     }
 
@@ -72,7 +72,7 @@ void String::allocateString(const char * d)
     if (capacity < 8)
         capacity = 8;
 
-    char* str = (char*)_aligned_malloc(sizeof(capacity + 1), sizeof(void*));
+    char* str = (char*)_aligned_malloc(sizeof(capacity + 1), alignment);
     memset(str, 0, capacity + 1);
     memcpy(str, data, length);
     stringCopy(d, str);
@@ -134,6 +134,25 @@ void String::stringCopy(const char * str1, char * str2)
         ++str2;
         ++str1;
     }
+}
+
+bool String::stringCompare(String * str1, String * str2)
+{
+    if (str1->length != str2->length)
+        return false;
+
+    char *symbol1 = str1->data;
+    char *symbol2 = str2->data;
+
+    for (size_t i = 0; i < str1->length; i++)
+    {
+        if (symbol1 != symbol2)
+            return false;
+        symbol1++;
+        symbol2++;
+    }
+
+    return true;
 }
 
 String& String::append(char symbol)

@@ -1,35 +1,39 @@
 #pragma once
 
-#if defined (_WIN64)
+#ifndef PLATFORM_H
+#define PLATFORM_H
 
-    #define PLATFORM_WINDOWS
+    #if defined (_WIN64)
 
-#elif defined (__linux__)
+        #define PLATFORM_WINDOWS
 
-    #define PLATFORM_LINUX
+    #elif defined (__linux__)
 
-#endif
+        #define PLATFORM_LINUX
 
-#ifdef PLATFORM_WINDOWS
+    #endif
 
-    #define WIN32_LEAN_AND_MEAN
-    //#define _CRT_SECURE_NO_WARNINGS
-    #define OS "WINDOWS"
-    #define CONFIG "X64"
-    #define MAXLENGHT 1000
+    #ifdef PLATFORM_WINDOWS
 
-#include <iostream>
-#include <fstream>
-#include <cstdio>
+        #define WIN32_LEAN_AND_MEAN
+        #define _CRT_SECURE_NO_WARNINGS
+        #define OS "WINDOWS"
+        #define CONFIG "X64"
+        #define MAXLENGHT 1000
+        #define BUILD_VERSION "1.0"
+        #include <iostream>
+        #include <fstream>
+        #include <cstdio>
 
-#elif defined PLATFORM_LINUX
-    
-    #define OS "LINUX"
-    #define CONFIG "X64"
-    #define MAXLENGHT 1000
+    #elif defined PLATFORM_LINUX
 
-#include <unistd.h>
+        #define OS "LINUX"
+        #define CONFIG "X64"
+        #define MAXLENGHT 1000
 
-#endif
+        #include <unistd.h>
 
+    #endif
+
+#endif // !PLATFORM_H
 
